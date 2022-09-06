@@ -15,7 +15,7 @@ def main(tile38_host: str, id_field: str) -> None:
 
         for row in gdf.itertuples():
             tile38\
-                .set(key=file.name, id=getattr(row[id_field]))\
+                .set(key=file.stem, id=str(getattr(row, id_field)))\
                 .object(mapping(row.geometry))
 
 
