@@ -8,6 +8,7 @@ services:
     ports:
       - 9851:9851
     command: [ "tile38-server", "-vv" ]
+    hostname: tile38
 
   # filler:
   #   build:
