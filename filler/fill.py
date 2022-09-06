@@ -3,6 +3,7 @@ from pathlib import Path
 
 import geopandas as gpd
 from pyle38 import Tile38
+from shapely.geometry import mapping
 
 
 def main(tile38_host: str, id_field: str) -> None:
@@ -12,13 +13,9 @@ def main(tile38_host: str, id_field: str) -> None:
     for file in Path("/data").glob("*.gpkg"):
         gdf = gpd.read_file(file)
         for row in gdf.itertuples():
-            # make a temporary GeoDataFrame from this row so we can expose
-            # the GeoJSON interface for the geometry
-            # TODO probably a nicer way to do this
-            _tmp = gpd.GeoDataFrame({"geometry": row.geometry})
-
-            # Insert the entry into Tile38
-            tile38.set(key=file.name, id=getattr(row[id_field])).object(_tmp.__geo_interface__["geometry"])
+            tile38\
+                .set(key=file.name, id=getattr(row[id_field]))\
+                .object(mapping(row.geometry))
 
 
 
