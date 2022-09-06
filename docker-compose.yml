@@ -9,10 +9,21 @@ services:
       - 9851:9851
     command: [ "tile38-server", "-vv" ]
 
-  filler:
+  # filler:
+  #   build:
+  #     context: ./filler
+  #   depends_on:
+  #     - tile38-leader
+  #   volumes:
+  #     - ./data:/data
+
+  filler-debug:
     build:
       context: ./filler
     depends_on:
       - tile38-leader
     volumes:
       - ./data:/data
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    command: [ "/bin/bash" ]
