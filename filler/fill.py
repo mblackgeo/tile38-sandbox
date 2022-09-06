@@ -12,6 +12,7 @@ def main(tile38_host: str, id_field: str) -> None:
 
     for file in Path("/data").glob("*.gpkg"):
         gdf = gpd.read_file(file)
+
         for row in gdf.itertuples():
             tile38\
                 .set(key=file.name, id=getattr(row[id_field]))\
