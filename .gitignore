@@ -130,3 +130,5 @@ dmypy.json
 
 # Data used for Tile38
 data/**.*
+
+.vscode/
