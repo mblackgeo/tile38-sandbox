@@ -21,7 +21,10 @@ async def main(tile38_host: str, id_field: str, key: str) -> None:
                 .set(key=key, id=str(getattr(row, id_field)))\
                 .object(mapping(row.geometry))\
                 .exec()
+
+        await tile38.quit()
         print("Finished")
+
 
 
 if __name__ == "__main__":
