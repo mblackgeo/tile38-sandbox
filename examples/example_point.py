@@ -1,6 +1,4 @@
-#
 import asyncio
-import json
 
 from pyle38 import Tile38
 
