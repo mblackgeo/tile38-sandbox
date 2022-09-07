@@ -9,4 +9,4 @@ install:  ## Install dev requirements into the current python environment
 
 .PHONY: run
 run:  ## Run the Tile38 data store locally with docker-compose
-	docker-compose up --build
+	docker compose up --build
