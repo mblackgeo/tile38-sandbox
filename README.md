@@ -1,5 +1,5 @@
 # tile38-sandbox
-Investigations of using [Tile38](https://github.com/tidwall/tile38) (the fast in-memory geospatial data store)
+Investigations of using [Tile38](https://github.com/tidwall/tile38), the fast in-memory geospatial data store, for performing spatial joins.
 
 ## Getting started
 
