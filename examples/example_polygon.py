@@ -21,8 +21,11 @@ async def main():
         ))"""
     )
 
-    response = await tile38.within("ps").limit(1_000_000).object(mapping(broadway)).asObjects()
-    print(json.dumps(response.dict()))
+    response = (
+        await tile38.within("ps").limit(1_000_000).object(mapping(broadway)).asObjects()
+    )
+    out = response.dict()
+    print(f"Returned {len(out['objects']):,} objects in {out['elapsed']}")
     await tile38.quit()
 
 

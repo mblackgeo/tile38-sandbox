@@ -13,4 +13,4 @@ run:  ## Run the Tile38 data store locally with docker-compose
 
 .PHONY: example
 example:  ## Run an example query against a populated Tile38 data store
-	python examples/example.py | jq .elapsed
+	python examples/example_polygon.py
