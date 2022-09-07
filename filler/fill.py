@@ -12,14 +12,16 @@ async def main(tile38_host: str, id_field: str, key: str) -> None:
     tile38 = Tile38(url=tile38_host)
 
     for file in Path("/data").glob("*.gpkg"):
+        print(f"Reading file : {file}")
         gdf = gpd.read_file(file)
 
+        print(f"Inserting {len(gdf):,} rows into tile38 : {tile38_host}")
         for row in gdf.itertuples():
             await tile38\
                 .set(key=key, id=str(getattr(row, id_field)))\
                 .object(mapping(row.geometry))\
                 .exec()
-
+        print("Finished")
 
 
 if __name__ == "__main__":
