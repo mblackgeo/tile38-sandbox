@@ -30,7 +30,7 @@ async def large_radius_intersect(tile38: Tile38):
     await tile38.quit()
 
 
-def test_small_polygon(aio_benchmark, tile38):
+def test_polygon(aio_benchmark, tile38):
     aio_benchmark(lambda: small_polygon_intersect(tile38))
 
 
