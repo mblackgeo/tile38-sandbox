@@ -1,12 +1,10 @@
 import pytest
-from pyle38 import Tile38
 from shapely import wkt
 from shapely.geometry import mapping
 
 
 @pytest.mark.asyncio
 async def small_polygon_intersect(tile38):
-
     ply = wkt.loads(
         """
         Polygon ((
