@@ -1,11 +1,10 @@
-import pytest
 from pyle38 import Tile38
 from shapely import wkt
 from shapely.geometry import mapping
 
 
-@pytest.mark.asyncio
-async def small_polygon_intersect(tile38: Tile38):
+async def small_polygon_intersect():
+    conn = Tile38(url="redis://localhost:9851", follower_url="redis://localhost:9851")
     ply = wkt.loads(
         """
         Polygon ((
@@ -16,23 +15,26 @@ async def small_polygon_intersect(tile38: Tile38):
             -73.98847105508848188 40.7482867876015078
         ))"""
     )
-    await tile38.within("ps").limit(1_000_000).object(mapping(ply)).asObjects()
-    await tile38.quit()
+    res = await conn.within("ps").limit(1_000_000).object(mapping(ply)).asObjects()
+    assert len(res.dict()) > 0
+    await conn.quit()
 
 
-@pytest.mark.asyncio
-async def large_radius_intersect(tile38: Tile38):
-    await tile38.within("ps").limit(1_000_000).circle(
-        lat=40.72716031,
-        lon=-73.88429579,
-        radius=5_000,
-    ).asObjects()
-    await tile38.quit()
+async def large_radius_intersect():
+    conn = Tile38(url="redis://localhost:9851", follower_url="redis://localhost:9851")
+    res = (
+        await conn.within("ps")
+        .limit(1_000_000)
+        .circle(lat=40.72716031, lon=-73.88429579, radius=3000)
+        .asObjects()
+    )
+    assert len(res.dict()) > 0
+    await conn.quit()
 
 
-def test_polygon(aio_benchmark, tile38):
-    aio_benchmark(lambda: small_polygon_intersect(tile38))
+def test_polygon(aio_benchmark):
+    aio_benchmark(small_polygon_intersect)
 
 
-def test_point(aio_benchmark, tile38):
-    aio_benchmark(lambda: large_radius_intersect(tile38))
+def test_point(aio_benchmark):
+    aio_benchmark(large_radius_intersect)
