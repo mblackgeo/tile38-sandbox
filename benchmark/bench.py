@@ -1,3 +1,4 @@
+import pytest
 from pyle38 import Tile38
 from shapely import wkt
 from shapely.geometry import mapping
@@ -36,5 +37,6 @@ def test_polygon(aio_benchmark):
     aio_benchmark(small_polygon_intersect)
 
 
+@pytest.mark.benchmark(min_rounds=10)
 def test_point(aio_benchmark):
     aio_benchmark(large_radius_intersect)
