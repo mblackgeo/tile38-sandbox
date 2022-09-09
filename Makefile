@@ -13,11 +13,11 @@ run:  ## Run the Tile38 data store locally with docker-compose
 
 .PHONY: example
 example:  ## Run an example query against a populated Tile38 data store
-	python examples/example_polygon.py
+	python examples/example_point.py
 
 .PHONY: bench
 bench:  ## Run the benchmarks
-	pytest benchmark/bench.py --disable-warnings --benchmark-columns="min, max, mean, median, rounds"
+	pytest benchmark/bench.py --disable-warnings --benchmark-columns="mean, median, min, max, rounds"
 
 .PHONY: test
 test:  ## Run some unit tests (requires Tile38 to be up)
