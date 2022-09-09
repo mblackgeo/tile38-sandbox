@@ -18,3 +18,7 @@ example:  ## Run an example query against a populated Tile38 data store
 .PHONY: bench
 bench:  ## Run the benchmarks
 	pytest benchmark/bench.py --disable-warnings --benchmark-columns="min, max, mean, median, rounds"
+
+.PHONY: test
+test:  ## Run some unit tests (requires Tile38 to be up)
+	pytest --disable-warnings tests/
