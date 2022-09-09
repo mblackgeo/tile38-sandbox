@@ -10,7 +10,7 @@ async def main():
     response = (
         await tile38.within("ps")
         .limit(1_000_000)
-        .circle(lat=40.72716031, lon=-73.88429579, radius=5_000)
+        .circle(lat=40.72716031, lon=-73.88429579, radius=3000)
         .asObjects()
     )
 
