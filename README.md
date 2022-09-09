@@ -30,7 +30,7 @@ After a few minutes (depending on the size of the data to be ingested), you shou
 
 ## Benchmarks
 
-Some simple benchmarks were implemented (following the [`examples`](/examples/)), assuming Tile38 has been filled with data in New York City (see [`bench.py`](/benchmark/bench.py)). These are two queries, one to perform a spatial join with a polygon (roughly a bounding box around Broadway), and second to perform a larger query of all data within a 5 km radius. The results are shown below:
+Some simple benchmarks were implemented (following the [`examples`](/examples/)), assuming Tile38 has been filled with data in New York City (see [`bench.py`](/benchmark/bench.py)). These are two queries, one to perform a spatial join with a polygon (roughly a bounding box around Broadway), and second to perform a larger query of all data within a 3 km radius. The results are shown below:
 
 * `test_polygon` returns 16 objects
 * `test_point` returns 10,217 objects
