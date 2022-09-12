@@ -34,3 +34,20 @@ async def test_large_radius_intersect(tile38: Tile38):
 
     assert res.count == 1
     assert res.objects[0].id == "truck1"
+
+
+@pytest.mark.asyncio
+async def test_matching(tile38: Tile38):
+    await (tile38.set("fleet", "van1").point(33.5123, -112.2693).exec())
+    await (tile38.set("fleet", "car1").point(33.5123, -112.2693).exec())
+
+    # Query only for vans
+    res = (
+        await tile38.nearby("fleet")
+        .match("van*")
+        .point(33.51244, -112.26944)
+        .asObjects()
+    )
+
+    assert res.count == 1
+    assert res.objects[0].id == "van1"
