@@ -36,7 +36,7 @@ async def main(query: QueryType):
     query : QueryType
         Type of query to perform
     """
-    tile38 = Tile38(url="redis://localhost:9851", follower_url="redis://localhost:9851")
+    tile38 = Tile38(url="redis://localhost:9851")
 
     if query == QueryType.SMALL:
         # A small polygon around part of Broadway
