@@ -1,8 +1,10 @@
 # Benchmark fixtures for pytest-asyncio
 # https://github.com/ionelmc/pytest-benchmark/issues/66#issuecomment-1137005280
+from pathlib import Path
+
+import geopandas as gpd
 import pytest
-import pytest_asyncio
-from pyle38 import Tile38
+from shapely.geometry import Polygon
 
 
 @pytest.yield_fixture(scope="function")
@@ -54,3 +56,17 @@ def aio_benchmark(benchmark):
             benchmark(func, *args, **kwargs)
 
     return _wrapper
+
+
+@pytest.fixture(scope="session")
+def route() -> Polygon:
+    gdf = gpd.read_file(
+        Path(__file__).parent.parent / "data" / "route-buffered.geojson"
+    )
+    return gdf.geometry.iloc[0]
+
+
+@pytest.fixture(scope="session")
+def donut() -> Polygon:
+    gdf = gpd.read_file(Path(__file__).parent.parent / "data" / "donut.geojson")
+    return gdf.geometry.iloc[0]
