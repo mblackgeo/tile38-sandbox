@@ -13,7 +13,7 @@ run:  ## Run the Tile38 data store locally with docker-compose
 
 .PHONY: example
 example:  ## Run an example query against a populated Tile38 data store
-	python examples/example_point.py
+	python examples/example.py -q point
 
 .PHONY: bench
 bench:  ## Run the benchmarks

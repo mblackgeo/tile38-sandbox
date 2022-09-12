@@ -26,7 +26,7 @@ Finally, startup Tile38 and run the filler:
 make run  # or docker-compose up --build
 ```
 
-After a few minutes (depending on the size of the data to be ingested), you should see a log message that the filler has finished. Queries can now be made against this data using [`pyle38`](https://github.com/iwpnd/pyle38). See [`examples`](/examples/) for more.
+After a few minutes (depending on the size of the data to be ingested), you should see a log message that the filler has finished. Queries can now be made against this data using [`pyle38`](https://github.com/iwpnd/pyle38). See [`examples`](/examples/) for more or run `make example`.
 
 ## Benchmarks
 
