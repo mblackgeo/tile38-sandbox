@@ -1,5 +1,4 @@
 import asyncio
-import json
 
 from pyle38 import Tile38
 from shapely import wkt
@@ -21,10 +20,12 @@ async def main():
         ))"""
     )
 
-    response = (
+    out = (
         await tile38.within("ps").limit(1_000_000).object(mapping(broadway)).asObjects()
     )
-    out = response.dict()
+
+    out_ids = [o["id"] for o in out["objects"]]
+    print(out_ids)
     print(f"Returned {len(out['objects']):,} objects in {out['elapsed']}")
     await tile38.quit()
 

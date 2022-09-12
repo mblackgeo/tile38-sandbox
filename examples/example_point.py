@@ -8,14 +8,17 @@ async def main():
 
     # Assuming radius is in metres?
     response = (
-        await tile38.within("ps")
+        await tile38.intersects("ps")
         .limit(1_000_000)
         .circle(lat=40.72716031, lon=-73.88429579, radius=3000)
         .asObjects()
     )
 
     out = response.dict()
+    out_ids = [o["id"] for o in out["objects"]]
+    print(out_ids)
     print(f"Returned {len(out['objects']):,} objects in {out['elapsed']}")
+
     await tile38.quit()
 
 
