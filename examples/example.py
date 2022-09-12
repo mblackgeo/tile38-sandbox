@@ -13,6 +13,7 @@ class QueryType(Enum):
     SMALL = 1
     LARGE = 2
     POINT = 3
+    DONUT = 4
 
     def __str__(self) -> str:
         return self.name.lower()
@@ -28,13 +29,15 @@ class QueryType(Enum):
             return s
 
 
-async def main(query: QueryType):
+async def main(query: QueryType, radius: float) -> None:
     """Perform an example query against a populated Tile38 data store
 
     Parameters
     ----------
     query : QueryType
         Type of query to perform
+    radius : float
+        Radius if querying a point
     """
     tile38 = Tile38(url="redis://localhost:9851")
 
@@ -74,8 +77,16 @@ async def main(query: QueryType):
         out = (
             await tile38.intersects("ps")
             .limit(1_000_000)
-            .circle(lat=40.72716031, lon=-73.88429579, radius=3000)
+            .circle(lat=40.72716031, lon=-73.88429579, radius=radius)
             .asIds()
+        )
+
+    elif query == QueryType.DONUT:
+        # A Polygon with an inner ring
+        gdf = gpd.read_file(Path(__file__).parent.parent / "data" / "donut.geojson")
+        geometry = gdf.geometry.iloc[0]
+        out = (
+            await tile38.within("ps").limit(1_000_000).object(mapping(geometry)).asIds()
         )
 
     print(out)
@@ -96,6 +107,16 @@ if __name__ == "__main__":
         choices=list(QueryType),
     )
 
+    # optional args
+    parser.add_argument(
+        "-r",
+        "--radius",
+        type=float,
+        help="Radius to buffer (meters), if `--query-type point`",
+        required=False,
+        default=3000,
+    )
+
     args = parser.parse_args()
 
-    asyncio.run(main(query=QueryType(args.query_type)))
+    asyncio.run(main(query=QueryType(args.query_type), radius=args.radius))
