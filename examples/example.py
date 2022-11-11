@@ -14,6 +14,7 @@ class QueryType(Enum):
     LARGE = 2
     POINT = 3
     DONUT = 4
+    DONUT2 = 5
 
     def __str__(self) -> str:
         return self.name.lower()
@@ -86,11 +87,34 @@ async def main(query: QueryType, radius: float) -> None:
         gdf = gpd.read_file(Path(__file__).parent.parent / "data" / "donut.geojson")
         geometry = gdf.geometry.iloc[0]
         out = (
+            await tile38.intersects("ps")
+            .limit(1_000_000)
+            .object(mapping(geometry))
+            .asIds()
+        )
+
+    elif query == QueryType.DONUT2:
+        gdf = gpd.read_file(Path(__file__).parent.parent / "data" / "donut2.geojson")
+        geometry = gdf.geometry.iloc[0]
+        out = (
+            await tile38.intersects("ps")
+            .limit(1_000_000)
+            .object(mapping(geometry))
+            .asIds()
+        )
+
+        print(f"INTERSECTS : {out}")
+        print(f"Returned {len(out.ids)} objects in {out.elapsed}")
+
+        print("*" * 79)
+
+        out = (
             await tile38.within("ps").limit(1_000_000).object(mapping(geometry)).asIds()
         )
 
-    print(out)
-    print(f"Returned {len(out.ids)} objects in {out.elapsed}")
+        print(f"WITHIN : {out}")
+        print(f"Returned {len(out.ids)} objects in {out.elapsed}")
+
     await tile38.quit()
 
 

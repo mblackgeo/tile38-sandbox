@@ -17,19 +17,19 @@ async def main(tile38_host: str, id_field: str, key: str) -> None:
 
         print(f"Inserting {len(gdf):,} rows into tile38 : {tile38_host}")
         for row in gdf.itertuples():
-            await tile38\
-                .set(key=key, id=str(getattr(row, id_field)))\
-                .object(mapping(row.geometry))\
-                .exec()
+            await tile38.set(key=key, id=str(getattr(row, id_field))).object(
+                mapping(row.geometry)
+            ).exec()
 
         await tile38.quit()
         print("Finished")
 
 
-
 if __name__ == "__main__":
-    asyncio.run(main(
-        tile38_host=os.environ.get("FILLER__TILE38_HOST", "redis://tile38:9851"),
-        id_field=os.environ.get("FILLER__ID_FIELD", "rid"),
-        key=os.environ.get("FILLER__KEY", "ps"),
-    ))
+    asyncio.run(
+        main(
+            tile38_host=os.environ.get("FILLER__TILE38_HOST", "redis://tile38:9851"),
+            id_field=os.environ.get("FILLER__ID_FIELD", "rid"),
+            key=os.environ.get("FILLER__KEY", "ps"),
+        )
+    )
